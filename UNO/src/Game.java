@@ -39,7 +39,7 @@ public class Game {
  */
 
         int id = 0;
-        //normal cards +0
+//normal cards +0
         int val = 0;
         while (0 <= id && id <= 9) {
             allCards[id] = new Card(id, "red", val, false);
