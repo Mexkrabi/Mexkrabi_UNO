@@ -8,6 +8,8 @@ public class Card {
     private String color;
     private int value;
     private boolean isSpecial;
+    //important to check if card is in the deck (to avoid duplicates)
+    private boolean mixedIntoDeck;
 
     /**
      * Builder for default values
@@ -69,6 +71,7 @@ public class Card {
         }
         this.value = value;
         this.isSpecial = isSpecial;
+        mixedIntoDeck = false;
     }
 
 
@@ -105,10 +108,17 @@ public class Card {
         this.value = value;
     }
 
-    public boolean getIsSpecial() {
+    public boolean isIsSpecial() {
         return this.isSpecial;
     }
     public void setIsSpecial(boolean isSpecial) {
         this.isSpecial = isSpecial;
+    }
+
+    public boolean isMixedIntoDeck() {
+        return mixedIntoDeck;
+    }
+    public void setMixedIntoDeck(boolean mixedIntoDeck) {
+        this.mixedIntoDeck = mixedIntoDeck;
     }
 }

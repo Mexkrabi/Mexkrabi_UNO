@@ -1,6 +1,9 @@
+import java.util.Random; //check the Link for more info about Random int -> https://www.mkyong.com/java/java-generate-random-integers-in-a-range/
+
 public class Game {
 
     public Card[] allCards = new Card[108];
+    public Card[] deck = new  Card[108];
 
     public Game() {
 
@@ -161,10 +164,35 @@ public class Game {
             id++;
         }
 
+        //create and mix deck
+        int counter = 0;
+        while (deck.length < 108) {
+            int randomNumber = getRandomNumberInRange(0, 108);
+            if(allCards[randomNumber].isMixedIntoDeck() == false) {
+                deck[counter] = allCards[randomNumber];
+                allCards[randomNumber].setMixedIntoDeck(true);
+            }
+        }
+        System.out.println("Deck order:");
+        for (int i = 0; deck.length > i; i++) {
+            System.out.println(deck[i]);
+        }
+
         //create players
         Player p1 = new Player("Player 1", 1, 7);
         Player p2 = new Player("Player 2", 2, 7);
         Player p3 = new Player("Player 3", 3, 7);
         Player p4 = new Player("Player 4", 4, 7);
+    }
+
+    //gets random number
+    private static int getRandomNumberInRange(int min, int max) {
+
+        if (min >= max) {
+            throw new IllegalArgumentException("max must be greater than min");
+        }
+
+        Random r = new Random();
+        return r.nextInt((max - min) + 1) + min;
     }
 }

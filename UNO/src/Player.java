@@ -1,9 +1,12 @@
+import java.util.*; //help with ArrayList -> http://www.codeadventurer.de/?p=1751
+
 public class Player {
 
     private String playername;
     private int id;
 
     private int cards;
+    private ArrayList<Card> playercards = new ArrayList<>();
 
     public Player(String playername, int id, int cards) {
         this.playername = playername;
