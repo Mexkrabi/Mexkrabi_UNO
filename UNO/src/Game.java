@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Random; //check the Link for more info about Random int -> https://www.mkyong.com/java/java-generate-random-integers-in-a-range/
 
 public class Game {
@@ -165,18 +168,29 @@ public class Game {
             id++;
         }
 
-        //create and mix deck
+        //create and mix deck       //help in this Link: https://stackoverflow.com/questions/20039025/java-array-of-unique-randomly-generated-integers
+/*
         int counter = 0;
-        while (deck.length < 108) {
+        while (counter < 108) {
             int randomNumber = getRandomNumberInRange(0, 108);
             if(allCards[randomNumber].isMixedIntoDeck() == false) {
                 deck[counter] = allCards[randomNumber];
                 allCards[randomNumber].setMixedIntoDeck(true);
+                counter++;
             }
         }
+*/
+        //create and mix deck           Spacial thanks to @nicex000 :)
+        Integer[] nums = getInts();
+        for(int i = 0; i< 108; i++){
+            deck[i] = allCards[nums[i]];
+            allCards[i].setMixedIntoDeck(true);
+        }
+
         System.out.println("Deck order:");
         for (int i = 0; deck.length > i; i++) {
-            System.out.println(i + " = " + deck[i]/* doesn't work with `.getId()` -> NullPointerException */);
+            System.out.print("pos " + i + " = " + "card ");
+            System.out.println(deck[i]/* doesn't work with `*/.getId()/*` -> NullPointerException */ /*now it works, thanks to @nicex000*/ );
         }
 
         //create players
@@ -195,5 +209,17 @@ public class Game {
 
         Random r = new Random();
         return r.nextInt((max - min) + 1) + min;
+    }
+    //Special thanks to @nicex000 :)
+    public static Integer[] getInts(){
+        List<Integer> a;
+        a = new ArrayList<>();
+        for (int i = 0; i <108; i++){
+            a.add(i);
+        }
+        Collections.shuffle(a);
+        Integer arr[] = new Integer[a.size()];
+        arr = a.toArray(arr);
+        return arr;
     }
 }

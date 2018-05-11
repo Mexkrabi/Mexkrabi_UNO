@@ -15,8 +15,9 @@ public class Card {
      * Builder for default values
      * Link: https://stackoverflow.com/questions/24573918/how-to-write-a-java-constructor-for-variable-number-of-arguments-of-different-ty?noredirect=1&lq=1
      */
+/*
     // not needed anymore, but good to know
-        public static class Builder {
+     public static class Builder {
             //default values
             private String color = "red";
             private int value = 1;
@@ -44,7 +45,7 @@ public class Card {
                 return new Card(id, color, value, isSpecial);
             }
         }
-
+*/
 
     public Card(int id, String color, int value, boolean isSpecial) {
 
