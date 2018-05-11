@@ -6,6 +6,7 @@ public class Game {
     public Card[] deck = new  Card[108];
 
     public Game() {
+        System.out.println("Initialising game...");
 
 /**
  * card order/ids:
@@ -175,7 +176,7 @@ public class Game {
         }
         System.out.println("Deck order:");
         for (int i = 0; deck.length > i; i++) {
-            System.out.println(deck[i]);
+            System.out.println(i + " = " + deck[i]/* doesn't work with `.getId()` -> NullPointerException */);
         }
 
         //create players

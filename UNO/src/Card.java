@@ -72,6 +72,8 @@ public class Card {
         this.value = value;
         this.isSpecial = isSpecial;
         mixedIntoDeck = false;
+
+        System.out.println("Card with ID: " + getId() + " created");
     }
 
 
