@@ -1,5 +1,9 @@
+import java.util.ListIterator;
+
 //infos on try catch -> http://schabby.de/try-catch-java/
 public class Main {
+
+    public static Game game;
 
     public static void main(String[] args) {
 
@@ -9,7 +13,7 @@ public class Main {
          * enter/create players (done in class "Game" code lines 164-168)
          */
 
-        Game game = new Game();
+        game = new Game();
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 

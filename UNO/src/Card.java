@@ -77,6 +77,19 @@ public class Card {
         System.out.println("Card with ID: " + getId() + " created");
     }
 
+    public void setDefaultValues() {
+        if (id >= 100 && id <= 103) {
+            setColor("balck");
+            System.out.println("Card with ID " + id + " succesfully reset!");
+        }
+        if (id >= 104 && id <= 107) {
+            setColor("black");
+            System.out.println("Card with ID " + id + " succesfully reset!");
+        }
+        else {
+            System.out.println("Nothing to change on this card! Card ID: " + id);
+        }
+    }
 
     /**
      * Getters & Setters

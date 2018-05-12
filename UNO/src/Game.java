@@ -1,12 +1,12 @@
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random; //check the Link for more info about Random int -> https://www.mkyong.com/java/java-generate-random-integers-in-a-range/
+import java.util.*;
 
 public class Game {
 
     public Card[] allCards = new Card[108];
-    public Card[] deck = new  Card[108];
+    private Card[] deckArr = new  Card[108];
+    public List<Card> deck = new ArrayList<>();
+    public ListIterator<Card> it = deck.listIterator();     //Link: http://openbook.rheinwerk-verlag.de/javainsel9/javainsel_13_003.htm#t2t34
+
 
     public Game() {
         System.out.println("Initialising game...");
@@ -180,17 +180,20 @@ public class Game {
             }
         }
 */
-        //create and mix deck           Spacial thanks to @nicex000 :)
+        //create and mix deck           Special thanks to @nicex000
         Integer[] nums = getInts();
-        for(int i = 0; i< 108; i++){
-            deck[i] = allCards[nums[i]];
+        for(int i = 0; i < 108; i++){
+            deckArr[i] = allCards[nums[i]];
             allCards[i].setMixedIntoDeck(true);
         }
-
         System.out.println("Deck order:");
-        for (int i = 0; deck.length > i; i++) {
+        for (int i = 0; deckArr.length > i; i++) {
             System.out.print("pos " + i + " = " + "card ");
-            System.out.println(deck[i]/* doesn't work with `*/.getId()/*` -> NullPointerException */ /*now it works, thanks to @nicex000*/ );
+            System.out.println(deckArr[i].getId()/*now it works, thanks to @nicex000*/ );
+        }
+        // deckArr (array) to deck (ArrayList) //see code line 10
+        for (int i = 0; i < 108; i++) {
+            deck.add(deckArr[i]);
         }
 
         //create players
@@ -198,6 +201,18 @@ public class Game {
         Player p2 = new Player("Player 2", 2, 7);
         Player p3 = new Player("Player 3", 3, 7);
         Player p4 = new Player("Player 4", 4, 7);
+
+        //draw cards
+        for (int i = 0; i < 7; i++) {
+            p1.drawCard();
+            p2.drawCard();
+            p3.drawCard();
+            p4.drawCard();
+        }
+        System.out.println("Player 1's cards: " + p1.getPlayercards());
+        System.out.println("Player 2's cards: " + p2.getPlayercards());
+        System.out.println("Player 3's cards: " + p3.getPlayercards());
+        System.out.println("Player 4's cards: " + p4.getPlayercards());
     }
 
     //gets random number
@@ -210,7 +225,7 @@ public class Game {
         Random r = new Random();
         return r.nextInt((max - min) + 1) + min;
     }
-    //Special thanks to @nicex000 :)
+    //Special thanks to @nicex000
     public static Integer[] getInts(){
         List<Integer> a;
         a = new ArrayList<>();

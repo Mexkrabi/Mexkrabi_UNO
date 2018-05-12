@@ -14,6 +14,12 @@ public class Player {
         this.cards = cards;
     }
 
+    public void drawCard() {
+        Game g = Main.game;
+        Card cardDrawn = g.deck.get(0); //NullPointerException REEEEEEEEEEE! Why???
+        playercards.add(cardDrawn);
+        g.deck.remove(0);
+    }
 
     /**
      * Getters & Setters
@@ -39,5 +45,7 @@ public class Player {
         this.cards = cards;
     }
 
-
+    public ArrayList<Card> getPlayercards() {
+        return this.playercards;
+    }
 }
