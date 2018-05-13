@@ -4,8 +4,14 @@ public class Game {
 
     public Card[] allCards = new Card[108];
     private Card[] deckArr = new  Card[108];
+
     public List<Card> deck = new ArrayList<>();
-    public ListIterator<Card> it = deck.listIterator();     //Link: http://openbook.rheinwerk-verlag.de/javainsel9/javainsel_13_003.htm#t2t34
+    //create when needed:
+    //public ListIterator<Card> deck_it = deck.listIterator();     //Link: http://openbook.rheinwerk-verlag.de/javainsel9/javainsel_13_003.htm#t2t34
+
+    public List<Player> players = new ArrayList<>();
+    //same here:
+    //public ListIterator<Player> players_it = players.listIterator();
 
 
     public Game() {
@@ -192,15 +198,17 @@ public class Game {
             System.out.println(deckArr[i].getId()/*now it works, thanks to @nicex000*/ );
         }
         // deckArr (array) to deck (ArrayList) //see code line 10
-        for (int i = 0; i < 108; i++) {
-            deck.add(deckArr[i]);
-        }
+        ArrayList deck = new ArrayList(Arrays.asList(deckArr));
 
         //create players
         Player p1 = new Player("Player 1", 1, 7);
         Player p2 = new Player("Player 2", 2, 7);
         Player p3 = new Player("Player 3", 3, 7);
         Player p4 = new Player("Player 4", 4, 7);
+        players.add(0, p1);
+        players.add(1, p2);
+        players.add(2, p3);
+        players.add(3, p4);
 
         //draw cards
         for (int i = 0; i < 7; i++) {

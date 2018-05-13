@@ -2,7 +2,7 @@ public class Card {
 
     /**
      * total cards: 108
-     * Link ofr download: https://opengameart.org/content/uno
+     * Link for download: https://opengameart.org/content/uno
      */
     private int id;
     private String color;

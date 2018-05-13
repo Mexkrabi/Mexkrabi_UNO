@@ -16,7 +16,8 @@ public class Player {
 
     public void drawCard() {
         Game g = Main.game;
-        Card cardDrawn = g.deck.get(0); //NullPointerException REEEEEEEEEEE! Why???
+        ListIterator<Card> deck_it = g.deck.listIterator(0); //NullPointerException Why???
+        Card cardDrawn = deck_it.next();
         playercards.add(cardDrawn);
         g.deck.remove(0);
     }
