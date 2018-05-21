@@ -1,52 +1,38 @@
-import java.util.*; //help with ArrayList -> http://www.codeadventurer.de/?p=1751
+import java.util.*;
 
 public class Player {
 
-    private String playername;
+    private String name;
     private int id;
+    private ArrayList<Card> hand;
 
-    private int cards;
-    private ArrayList<Card> playercards = new ArrayList<>();
-
-    public Player(String playername, int id, int cards) {
-        this.playername = playername;
+    public Player(String name, int id) {
+        this.name = name;
         this.id = id;
-        this.cards = cards;
+        hand = new ArrayList<>(15);
     }
 
-    public void drawCard() {
-        Game g = Main.game;
-        ListIterator<Card> deck_it = g.deck.listIterator(0); //NullPointerException Why???
-        Card cardDrawn = deck_it.next();
-        playercards.add(cardDrawn);
-        g.deck.remove(0);
+    public void drawCard(Card drawnCard) {
+        hand.add(drawnCard);
+        System.out.println("New Hand from " + getName() + ":");
+        for(Card hand : hand) {
+            System.out.println(hand);
+        }
+        //remove card HERE (in Game.java)
     }
 
-    /**
-     * Getters & Setters
-     */
-    public String getPlayername() {
-        return this.playername;
+    //Getters and Setters
+    public String getName() {
+        return name;
     }
-    public void setPlayername(String playername) {
-        this.playername = playername;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public int getId() {
-        return this.id;
+        return id;
     }
     public void setId(int id) {
         this.id = id;
-    }
-
-    public int getCards() {
-        return this.cards;
-    }
-    public void setCards(int cards) {
-        this.cards = cards;
-    }
-
-    public ArrayList<Card> getPlayercards() {
-        return this.playercards;
     }
 }

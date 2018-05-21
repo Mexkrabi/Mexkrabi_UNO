@@ -1,140 +1,206 @@
 public class Card {
 
-    /**
-     * total cards: 108
-     * Link for download: https://opengameart.org/content/uno
-     */
     private int id;
     private String color;
     private int value;
-    private boolean isSpecial;
-    //important to check if card is in the deck (to avoid duplicates)
-    private boolean mixedIntoDeck;
+    private boolean wildCard;
 
-    /**
-     * Builder for default values
-     * Link: https://stackoverflow.com/questions/24573918/how-to-write-a-java-constructor-for-variable-number-of-arguments-of-different-ty?noredirect=1&lq=1
-     */
-/*
-    // not needed anymore, but good to know
-     public static class Builder {
-            //default values
-            private String color = "red";
-            private int value = 1;
-            private boolean isSpecial = false;
-            private int id = 1000;
-
-            public Builder withColor(String color) {
-                this.color = color;
-                return this;
-            }
-            public Builder withValue(int value) {
-                this.value = value;
-                return this;
-            }
-            public Builder withIsSpecial(boolean isSpecial) {
-                this.isSpecial = isSpecial;
-                return this;
-            }
-            public Builder withId(int id) {
-                this.id = id;
-                return this;
-            }
-
-            public Card build() {
-                return new Card(id, color, value, isSpecial);
+    public Card(int id) {
+        if(id < 0 || id > 107){
+            throw new IllegalArgumentException("parameter 'id' must be between 0 and 107");
+        }
+//normal cards  (with 0)
+        if(id >= 0 && id <= 9) {
+            setId(id);
+            setValue(id);
+            setColor("red");
+            setWildCard(false);
+        }
+        if(id >= 10 && id <= 19) {
+            setId(id);
+            setValue(id-10);
+            setColor("yellow");
+            setWildCard(false);
+        }
+        if(id >= 20 && id <= 29) {
+            setId(id);
+            setValue(id-20);
+            setColor("green");
+            setWildCard(false);
+        }
+        if(id >= 30 && id <= 39) {
+            setId(id);
+            setValue(id-30);
+            setColor("blue");
+            setWildCard(false);
+        }
+//normal cards (without 0)
+        if(id >= 40 && id <= 48) {
+            setId(id);
+            setValue(id-39);
+            setColor("red");
+            setWildCard(false);
+        }
+        if(id >= 49 && id <= 57) {
+            setId(id);
+            setValue(id-48);
+            setColor("yellow");
+            setWildCard(false);
+        }
+        if(id >= 58 && id <= 66) {
+            setId(id);
+            setValue(id-57);
+            setColor("green");
+            setWildCard(false);
+        }
+        if(id >= 67 && id <= 75) {
+            setId(id);
+            setValue(id-66);
+            setColor("blue");
+            setWildCard(false);
+        }
+        //skip cards
+        if(id >= 76 && id <=83) {
+            setId(id);
+            setValue(10);
+            setWildCard(false);
+            switch (id) {
+                case 76:
+                    setColor("red");
+                    break;
+                case 77:
+                    setColor("red");
+                    break;
+                case 78:
+                    setColor("yellow");
+                    break;
+                case 79:
+                    setColor("yellow");
+                    break;
+                case 80:
+                    setColor("green");
+                    break;
+                case 81:
+                    setColor("green");
+                    break;
+                case 82:
+                    setColor("blue");
+                    break;
+                case 83:
+                    setColor("blue");
+                    break;
             }
         }
-*/
-
-    public Card(int id, String color, int value, boolean isSpecial) {
-
-        //DEFAULT VALUES TEST
-/*
-        if(color==null) {
-            this.color = "red";
-        } else if(value==null) {
-            this.value = 1;
-        } else if(isSpecial==null) {
-            this.isSpecial = false;
+        //reverse cards
+        if(id >= 84 && id <=91) {
+            setId(id);
+            setValue(11);
+            setWildCard(false);
+            switch (id) {
+                case 84:
+                    setColor("red");
+                    break;
+                case 85:
+                    setColor("red");
+                    break;
+                case 86:
+                    setColor("yellow");
+                    break;
+                case 87:
+                    setColor("yellow");
+                    break;
+                case 88:
+                    setColor("green");
+                    break;
+                case 89:
+                    setColor("green");
+                    break;
+                case 90:
+                    setColor("blue");
+                    break;
+                case 91:
+                    setColor("blue");
+                    break;
+            }
         }
-*/
-        this.id = id;
-        if( color.equals("red") ||
-            color.equals("yellow") ||
-            color.equals("green") ||
-            color.equals("blue") ||
-            color.equals("black")
-            ) {
-            this.color = color;
-        } else {
-            System.out.println("Error: color not found. Please inset another color.");
+        //+2 cards
+        if(id >= 92 && id <=99) {
+            setId(id);
+            setValue(12);
+            setWildCard(false);
+            switch (id) {
+                case 92:
+                    setColor("red");
+                    break;
+                case 93:
+                    setColor("red");
+                    break;
+                case 94:
+                    setColor("yellow");
+                    break;
+                case 95:
+                    setColor("yellow");
+                    break;
+                case 96:
+                    setColor("green");
+                    break;
+                case 97:
+                    setColor("green");
+                    break;
+                case 98:
+                    setColor("blue");
+                    break;
+                case 99:
+                    setColor("blue");
+                    break;
+            }
         }
-        this.value = value;
-        this.isSpecial = isSpecial;
-        mixedIntoDeck = false;
-
-        System.out.println("Card with ID: " + getId() + " created");
-    }
-
-    public void setDefaultValues() {
-        if (id >= 100 && id <= 103) {
-            setColor("balck");
-            System.out.println("Card with ID " + id + " succesfully reset!");
-        }
-        if (id >= 104 && id <= 107) {
+        //wild cards
+        if(id >= 100 && id <= 107) {
+            setId(id);
             setColor("black");
-            System.out.println("Card with ID " + id + " succesfully reset!");
-        }
-        else {
-            System.out.println("Nothing to change on this card! Card ID: " + id);
+            setWildCard(true);
+            //choose cards
+            if(id >= 100 && id <= 103) {
+                setValue(13);
+            }
+            //+4 cards
+            if(id >= 104 && id <= 107) {
+                setValue(14);
+            }
         }
     }
 
-    /**
-     * Getters & Setters
-     */
+    //Getters and Setters
     public int getId() {
-        return this.id;
+        return id;
     }
     public void setId(int id) {
         this.id = id;
     }
 
     public String getColor() {
-        return this.color;
+        return color;
     }
     public void setColor(String color) {
-        if( color.equals("red") ||
-            color.equals("yellow") ||
-            color.equals("green") ||
-            color.equals("blue") ||
-            color.equals("black")
-            ) {
+        if(color.equals("red") || color.equals("yellow") || color.equals("green") || color.equals("blue") || color.equals("black")) {
             this.color = color;
         } else {
-            System.out.println("Error: color not found. Please inset another color.");
+            throw new IllegalArgumentException("This color cannot be added, please choose between 'red', 'yellow', 'green', 'blue' and 'black'");
         }
     }
 
     public int getValue() {
-        return this.value;
+        return value;
     }
     public void setValue(int value) {
         this.value = value;
     }
 
-    public boolean isIsSpecial() {
-        return this.isSpecial;
+    public boolean isWildCard() {
+        return wildCard;
     }
-    public void setIsSpecial(boolean isSpecial) {
-        this.isSpecial = isSpecial;
-    }
-
-    public boolean isMixedIntoDeck() {
-        return mixedIntoDeck;
-    }
-    public void setMixedIntoDeck(boolean mixedIntoDeck) {
-        this.mixedIntoDeck = mixedIntoDeck;
+    public void setWildCard(boolean wildCard) {
+        this.wildCard = wildCard;
     }
 }
