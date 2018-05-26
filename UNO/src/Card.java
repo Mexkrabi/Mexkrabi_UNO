@@ -59,7 +59,7 @@ public class Card {
             setColor("blue");
             setWildCard(false);
         }
-        //skip cards
+//skip cards
         if(id >= 76 && id <=83) {
             setId(id);
             setValue(10);
@@ -91,7 +91,7 @@ public class Card {
                     break;
             }
         }
-        //reverse cards
+//reverse cards
         if(id >= 84 && id <=91) {
             setId(id);
             setValue(11);
@@ -123,7 +123,7 @@ public class Card {
                     break;
             }
         }
-        //+2 cards
+//+2 cards
         if(id >= 92 && id <=99) {
             setId(id);
             setValue(12);
@@ -155,16 +155,16 @@ public class Card {
                     break;
             }
         }
-        //wild cards
+//wild cards
         if(id >= 100 && id <= 107) {
             setId(id);
             setColor("black");
             setWildCard(true);
-            //choose cards
+    //choose cards
             if(id >= 100 && id <= 103) {
                 setValue(13);
             }
-            //+4 cards
+    //+4 cards
             if(id >= 104 && id <= 107) {
                 setValue(14);
             }

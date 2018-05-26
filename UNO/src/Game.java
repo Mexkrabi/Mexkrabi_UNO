@@ -2,9 +2,15 @@ import java.util.*;
 
 public class Game {
 
-    public Card[] allCards;
+    private Card[] allCards;
     public ArrayList<Card> deck;
     public ArrayList<Player> players;
+
+    private ListIterator<Player> players_it;
+    private int currentPlayerId;
+    private boolean gameDirectionIncreasing;
+    private Card cardOnTable;
+    private int stacker; //value for stacking +2 and +4 cards
 
     public Game() {
         //create cards
@@ -43,7 +49,6 @@ public class Game {
         for(int id = 0; id < 108; id++) {
             allCards[id] = new Card(id);
             System.out.println(allCards[id] + ", ID: " + allCards[id].getId() + ", Color: " + allCards[id].getColor() + ", Value: " + allCards[id].getValue() + ", Wildcard: " + allCards[id].isWildCard());
-
         }
 
         //mix deck
@@ -84,13 +89,117 @@ public class Game {
             players.get(3).drawCard(topCard());
             removeTopCard();
         }
+
+        gameDirectionIncreasing = true;
+        //Starting player:
+        players_it = players.listIterator();
+        playerChange();
+
+        //first card:
+        cardOnTable = topCard();
+        removeTopCard();
+        System.out.println("Card on the table: " + cardOnTable);
+
+        System.out.println("Ready to start");
+    }
+
+    //turn
+    public void newTurn() {
+        for (int i = 0; i < 4; i++)
+            //check for current player
+            if (currentPlayerId == players.get(i).getId()) {
+                Player p = players.get(i);
+                p.playCard(card);
+                break;
+        }
     }
 
     public Card topCard() {
-        System.out.println(deck.get(0));
+        System.out.println("Top Card: " + deck.get(0));
         return deck.get(0);
     }
     public void removeTopCard() {
         deck.remove(0);
+    }
+
+    private void playerChange() {
+        if (isGameDirectionIncreasing()) {
+            if (players_it.hasNext()) {
+                currentPlayerId = players_it.next().getId();
+            } else {
+                players_it = players.listIterator(0);
+                currentPlayerId = players.get(0).getId();
+            }
+        } else {
+            if (players_it.hasPrevious()) {
+                currentPlayerId = players_it.previous().getId();
+            } else {
+                players.listIterator(3);
+                currentPlayerId = players.get(3).getId();
+            }
+        }
+    System.out.println("Now Playing: Player " + currentPlayerId);
+    }
+
+    //card actions
+    public void cardAction(Card card) {
+        if (card.getValue() == 10) { //skip card
+            playerChange();
+        }
+        if (card.getValue() == 11) { //reverse card
+            changeGameDirection();
+            playerChange(); //needed to get the right player afterwards
+        }
+        if (card.getValue() == 12) { //+2 cards
+            stacker += 2;
+        }
+        if (card.getValue() == 13) { //choose card
+            //change color
+        }
+        if (card.getValue() == 14) { //+4 card
+            stacker += 4;
+            //change color
+        }
+    }
+
+    public boolean isCardPlayable(Card card) {
+        if (card.getValue() == cardOnTable.getValue() || card.getColor().equals(cardOnTable.getColor()) || card.isWildCard()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean isGameWon() {
+        boolean gameWon = false;
+        for (int i = 0; i < 4; i++) {
+            if (!players.get(i).getHand().isEmpty()) {
+                gameWon = true;
+                System.out.println(players.get(i).getName() + " won the game!");
+            }
+        }
+        return gameWon;
+    }
+
+    //Getters and Setters
+    public boolean isGameDirectionIncreasing() {
+        return gameDirectionIncreasing;
+    }
+    public void changeGameDirection() {
+        gameDirectionIncreasing = !gameDirectionIncreasing;
+    }
+
+    public int getCurrentPlayerId() {
+        return currentPlayerId;
+    }
+    public void setCurrentPlayerId(int currentPlayerId) {
+        this.currentPlayerId = currentPlayerId;
+    }
+
+    public Card getCardOnTable() {
+        return cardOnTable;
+    }
+    public void setCardOnTable(Card cardOnTable) {
+        this.cardOnTable = cardOnTable;
     }
 }

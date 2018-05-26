@@ -21,6 +21,15 @@ public class Player {
         //remove card HERE (in Game.java)
     }
 
+    public Card playCard(Card card) {
+        if (hand.contains(card)) {
+            hand.remove(card);
+        } else {
+            throw new IllegalArgumentException("You don't have this card in your hand! Choose one you have!");
+        }
+        return card;
+    }
+
     //Getters and Setters
     public String getName() {
         return name;
@@ -34,5 +43,9 @@ public class Player {
     }
     public void setId(int id) {
         this.id = id;
+    }
+
+    public ArrayList<Card> getHand() {
+        return hand;
     }
 }
