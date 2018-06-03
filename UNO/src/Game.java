@@ -109,7 +109,7 @@ public class Game {
             //check for current player
             if (currentPlayerId == players.get(i).getId()) {
                 Player p = players.get(i);
-                p.playCard(card);
+                p.playCard(card); //not ready yet
                 break;
         }
     }
