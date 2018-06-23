@@ -1,120 +1,81 @@
-import java.util.*;
+import Cards.*;
 
-public class Game {
+import java.util.ArrayList;
+import java.util.Collections;
 
-    private Card[] allCards;
-    public ArrayList<Card> deck;
-    public ArrayList<Player> players;
+public class Game{
 
-    private ListIterator<Player> players_it;
-    private int currentPlayerId;
-    private boolean gameDirectionIncreasing;
-    private Card cardOnTable;
-    private int stacker; //value for stacking +2 and +4 cards
+    public ArrayList<UNOCard> deck = new ArrayList<>(108);
+    public ArrayList<Player> players = new ArrayList<>(4);
+
+    private int currentPlayerNr;
+
+    private GameLogic logic = new GameLogic();
 
     public Game() {
-        //create cards
-        /**
-         * card order/ids:
-         *      0-9: red_1 0-9
-         *      10-19: yellow_1 0-9
-         *      20-29: green_1 0-9
-         *      30-39: blue_1 0-9
-         *
-         *      40-48: red_2 1-9
-         *      49-57: yellow_2 1-9
-         *      58-66: green_2 1-9
-         *      67-75: blue_2 1-9
-         *
-         *      76-77: red skip
-         *      78-79: yellow skip
-         *      80-81: green skip
-         *      82-83: blue skip
-         *
-         *      84-85: red reverse
-         *      86-87: yellow reverse
-         *      88-89: green reverse
-         *      90-91: blue reverse
-         *
-         *      92-93: red +2
-         *      94-95: yellow +2
-         *      96-97: green +2
-         *      98-99: blue +2
-         *
-         *      100-103: black choose
-         *      104-107: black +4
-         */
-        System.out.println("Creating Cards...");
-        allCards = new Card[108];
-        for(int id = 0; id < 108; id++) {
-            allCards[id] = new Card(id);
-            System.out.println(allCards[id] + ", ID: " + allCards[id].getId() + ", Color: " + allCards[id].getColor() + ", Value: " + allCards[id].getValue() + ", Wildcard: " + allCards[id].isWildCard());
+
+        //creating wild cards
+        System.out.println("creating wild cards");
+        for(int i = 0; i < 4; i++) {
+            deck.add(new WildCard(false, 13));
+            deck.add(new WildCard(true, 14));
+        }
+        System.out.println("wild cards created");
+
+        //creating action cards
+        System.out.println("creating action cards");
+        for(int i = 0; i < 2; i++) {
+            deck.add(new ActionCard(Color.RED, 10, ActionCard.ACTION.SKIP));
+            deck.add(new ActionCard(Color.YELLOW, 10, ActionCard.ACTION.SKIP));
+            deck.add(new ActionCard(Color.GREEN, 10, ActionCard.ACTION.SKIP));
+            deck.add(new ActionCard(Color.BLUE, 10, ActionCard.ACTION.SKIP));
+
+            deck.add(new ActionCard(Color.RED, 11, ActionCard.ACTION.REVERSE));
+            deck.add(new ActionCard(Color.YELLOW, 11, ActionCard.ACTION.REVERSE));
+            deck.add(new ActionCard(Color.GREEN, 11, ActionCard.ACTION.REVERSE));
+            deck.add(new ActionCard(Color.BLUE, 11, ActionCard.ACTION.REVERSE));
+
+            deck.add(new ActionCard(Color.RED, 12, ActionCard.ACTION.PLUS_2));
+            deck.add(new ActionCard(Color.YELLOW, 12, ActionCard.ACTION.PLUS_2));
+            deck.add(new ActionCard(Color.GREEN, 12, ActionCard.ACTION.PLUS_2));
+            deck.add(new ActionCard(Color.BLUE, 12, ActionCard.ACTION.PLUS_2));
+        }
+        System.out.println("action cards created");
+
+        //creating color cards
+        System.out.println("creating color cards");
+        deck.add(new ColorCard(Color.RED, 0));
+        deck.add(new ColorCard(Color.YELLOW, 0));
+        deck.add(new ColorCard(Color.GREEN, 0));
+        deck.add(new ColorCard(Color.BLUE, 0));
+
+        for(int z = 0; z < 2; z++) {
+            for (int i = 1; i < 10; i++) {
+                deck.add(new ColorCard(Color.RED, i));
+                deck.add(new ColorCard(Color.YELLOW, i));
+                deck.add(new ColorCard(Color.GREEN, i));
+                deck.add(new ColorCard(Color.BLUE, i));
+            }
+        }
+        System.out.println("color cards created");
+
+        System.out.println("All cards created. List:");
+        for(UNOCard card : deck) {
+            System.out.println("Card: " + card.getType() + ", " + card.getValue() + ", " + card.getColor());
         }
 
         //mix deck
-        deck = new ArrayList<>(108);
-        Collections.addAll(deck, allCards);
         Collections.shuffle(deck);
-        deck.trimToSize();
-        System.out.println("Deck Order:");
-        for(Card deck : deck) {            //Link: http://www.dreamincode.net/forums/topic/185660-how-to-get-class-attributes-from-arraylist/
-            System.out.println(deck.getId());//how to access an attribute
+        System.out.println("Deck mixed\nOrder:");
+        for(UNOCard card : deck) {
+            System.out.println("Card: " + card.getType() + ", " + card.getValue() + ", " + card.getColor());
         }
 
-        //create players
-        players = new ArrayList<>(4);
-        System.out.println("Players:");
-        players.add(0,new Player("Player 1", 1));
-        players.add(1,new Player("Player 2", 2));
-        players.add(2,new Player("Player 3", 3));
-        players.add(3,new Player("Player 4", 4));
-        for(Player players : players) {
-            System.out.println("Name: " + players.getName() + ", ID: " + players.getId());
-        }
+        System.out.println("Deck Größe: " + deck.size());
 
-        //players draw cards (7 at the beginning)
-        for(int i = 0; i < 7; i++) {
-            /**
-             * Card drawing sequence:
-             * 1. use method drawCard(Card drawnCard) from Player.java
-             * 2. insert method topCard() from Game.java as parameter drawnCard
-             * 3. execute method removeTopCard() from Game.java immediatly after steps 1. and 2.
-             */
-            players.get(0).drawCard(topCard());
-            removeTopCard();
-            players.get(1).drawCard(topCard());
-            removeTopCard();
-            players.get(2).drawCard(topCard());
-            removeTopCard();
-            players.get(3).drawCard(topCard());
-            removeTopCard();
-        }
-
-        gameDirectionIncreasing = true;
-        //Starting player:
-        players_it = players.listIterator();
-        playerChange();
-
-        //first card:
-        cardOnTable = topCard();
-        removeTopCard();
-        System.out.println("Card on the table: " + cardOnTable);
-
-        System.out.println("Ready to start");
     }
 
-    //turn
-    public void newTurn() {
-        for (int i = 0; i < 4; i++)
-            //check for current player
-            if (currentPlayerId == players.get(i).getId()) {
-                Player p = players.get(i);
-                p.playCard(card); //not ready yet
-                break;
-        }
-    }
-
-    public Card topCard() {
+    public UNOCard topCard() {
         System.out.println("Top Card: " + deck.get(0));
         return deck.get(0);
     }
@@ -122,84 +83,8 @@ public class Game {
         deck.remove(0);
     }
 
-    private void playerChange() {
-        if (isGameDirectionIncreasing()) {
-            if (players_it.hasNext()) {
-                currentPlayerId = players_it.next().getId();
-            } else {
-                players_it = players.listIterator(0);
-                currentPlayerId = players.get(0).getId();
-            }
-        } else {
-            if (players_it.hasPrevious()) {
-                currentPlayerId = players_it.previous().getId();
-            } else {
-                players.listIterator(3);
-                currentPlayerId = players.get(3).getId();
-            }
-        }
-    System.out.println("Now Playing: Player " + currentPlayerId);
-    }
-
-    //card actions
-    public void cardAction(Card card) {
-        if (card.getValue() == 10) { //skip card
-            playerChange();
-        }
-        if (card.getValue() == 11) { //reverse card
-            changeGameDirection();
-            playerChange(); //needed to get the right player afterwards
-        }
-        if (card.getValue() == 12) { //+2 cards
-            stacker += 2;
-        }
-        if (card.getValue() == 13) { //choose card
-            //change color
-        }
-        if (card.getValue() == 14) { //+4 card
-            stacker += 4;
-            //change color
-        }
-    }
-
-    public boolean isCardPlayable(Card card) {
-        if (card.getValue() == cardOnTable.getValue() || card.getColor().equals(cardOnTable.getColor()) || card.isWildCard()) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public boolean isGameWon() {
-        boolean gameWon = false;
-        for (int i = 0; i < 4; i++) {
-            if (!players.get(i).getHand().isEmpty()) {
-                gameWon = true;
-                System.out.println(players.get(i).getName() + " won the game!");
-            }
-        }
-        return gameWon;
-    }
-
     //Getters and Setters
-    public boolean isGameDirectionIncreasing() {
-        return gameDirectionIncreasing;
-    }
-    public void changeGameDirection() {
-        gameDirectionIncreasing = !gameDirectionIncreasing;
-    }
-
-    public int getCurrentPlayerId() {
-        return currentPlayerId;
-    }
-    public void setCurrentPlayerId(int currentPlayerId) {
-        this.currentPlayerId = currentPlayerId;
-    }
-
-    public Card getCardOnTable() {
-        return cardOnTable;
-    }
-    public void setCardOnTable(Card cardOnTable) {
-        this.cardOnTable = cardOnTable;
+    public int getCurrentPlayerNr() {
+        return currentPlayerNr;
     }
 }

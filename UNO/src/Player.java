@@ -1,33 +1,33 @@
-import java.util.*;
+import Cards.UNOCard;
+
+import java.util.ArrayList;
 
 public class Player {
 
     private String name;
-    private int id;
-    private ArrayList<Card> hand;
+    private int nr;
+    private ArrayList<UNOCard> hand;
+    private int cards;
 
-    public Player(String name, int id) {
+    private Game game;
+
+    public Player(String name, int nr) {
         this.name = name;
-        this.id = id;
-        hand = new ArrayList<>(15);
+        this.nr = nr;
+
+        hand = new ArrayList<>();
+        cards = 0;
     }
 
-    public void drawCard(Card drawnCard) {
-        hand.add(drawnCard);
-        System.out.println("New Hand from " + getName() + ":");
-        for(Card hand : hand) {
-            System.out.println(hand);
-        }
-        //remove card HERE (in Game.java)
-    }
 
-    public Card playCard(Card card) {
-        if (hand.contains(card)) {
-            hand.remove(card);
-        } else {
-            throw new IllegalArgumentException("You don't have this card in your hand! Choose one you have!");
-        }
-        return card;
+    public void drawCard(Game game) {
+        UNOCard c = game.topCard();
+        addCard(c);
+        game.removeTopCard();
+    }
+    private void addCard(UNOCard card) {
+        hand.add(card);
+        cards += 1;
     }
 
     //Getters and Setters
@@ -38,14 +38,18 @@ public class Player {
         this.name = name;
     }
 
-    public int getId() {
-        return id;
+    public int getNr() {
+        return nr;
     }
-    public void setId(int id) {
-        this.id = id;
+    public void setNr(int nr) {
+        this.nr = nr;
     }
 
-    public ArrayList<Card> getHand() {
+    public ArrayList<UNOCard> getHand() {
         return hand;
+    }
+
+    public int getCards() {
+        return cards;
     }
 }
