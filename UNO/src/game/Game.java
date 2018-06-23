@@ -1,16 +1,18 @@
-import Cards.*;
+package game;
+
+import cards.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class Game{
+public class Game extends GameLogic {
 
     public ArrayList<UNOCard> deck = new ArrayList<>(108);
     public ArrayList<Player> players = new ArrayList<>(4);
 
     private int currentPlayerNr;
 
-    private GameLogic logic = new GameLogic();
+    //private GameLogic logic = new GameLogic();
 
     public Game() {
 
@@ -71,7 +73,7 @@ public class Game{
             System.out.println("Card: " + card.getType() + ", " + card.getValue() + ", " + card.getColor());
         }
 
-        System.out.println("Deck Größe: " + deck.size());
+        System.out.println("Deck size: " + deck.size());
 
     }
 
@@ -87,4 +89,5 @@ public class Game{
     public int getCurrentPlayerNr() {
         return currentPlayerNr;
     }
+
 }

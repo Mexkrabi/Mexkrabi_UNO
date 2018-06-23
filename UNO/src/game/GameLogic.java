@@ -1,5 +1,6 @@
-import Cards.Type;
-import Cards.UNOCard;
+package game;
+
+import cards.*;
 
 public class GameLogic {
 

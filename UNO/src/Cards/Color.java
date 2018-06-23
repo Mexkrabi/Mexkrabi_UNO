@@ -1,4 +1,4 @@
-package Cards;
+package cards;
 
 
 public enum Color {
