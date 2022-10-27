@@ -1,6 +1,6 @@
 package game;
 
-import cards.UNOCard;
+import Cards.UNOCard;
 
 import java.util.ArrayList;
 

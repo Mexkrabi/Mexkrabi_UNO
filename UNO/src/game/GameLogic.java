@@ -1,6 +1,6 @@
 package game;
 
-import cards.*;
+import Cards.*;
 
 public class GameLogic {
 
